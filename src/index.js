@@ -111,10 +111,12 @@ class CacheMiddleware {
    * This is necessary because there are multiple layers to attach.
    * Perhaps if mung ever gets a single total interception middleware, we can just return the route.
    * @param  {ExpressApp} app The Express app instance.
+   * @param {ExpressRequesetHandler} callbacks Any other callbacks to be
+   * specified BEFORE the cache route
    */
-  attach(app) {
+  attach(app, ...callbacks) {
     // Intercept request to get from cache if possible
-    app.use(this.cacheRoute.bind(this))
+    app.use(...callbacks, this.cacheRoute.bind(this))
 
     // Any requests after this will be stored in cache.
     // TODO: figure out if I should homogenize requests by invoking hydrate here
