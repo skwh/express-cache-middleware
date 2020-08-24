@@ -1,6 +1,6 @@
 {
   "name": "express-cache-middleware",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "An Express middleware designed to intercept responses and cache them.",
   "main": "src/index.js",
   "keywords": [
@@ -14,11 +14,11 @@
     "intercept",
     "transform"
   ],
-  "repository": "https://github.com/tprobinson/express-cache-middleware.git",
+  "repository": "https://github.com/skwh/express-cache-middleware",
   "bugs": {
-    "url": "https://github.com/tprobinson/express-cache-middleware.git/issues"
+    "url": "https://github.com/skwh/express-cache-middleware/issues" 
   },
-  "homepage": "https://github.com/tprobinson/express-cache-middleware#readme",
+  "homepage": "https://github.com/skwh/express-cache-middleware#readme",
   "license": "MIT",
   "author": {
     "name": "Trevor Robinson",
