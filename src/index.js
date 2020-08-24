@@ -36,6 +36,16 @@ async function passthroughResponse(req, res, data) {
   return data
 }
 
+
+/**
+ * A dummy function for the except option
+ * @param {string} cacheKey the computed cache key from `getCacheKey`
+ * @return {boolean} whether the key should be excepted from the cache
+ */
+function passthroughExcept(cacheKey) {
+  return false
+}
+
 /**
  * A function to handle the hydration process
  * @param  {ExpressResponse} res      Passed-in Express response
@@ -70,6 +80,7 @@ function hydrateHandler(req, res, data, hydrate) {
 const defaultOptions = {
   getCacheKey: passthroughUrl,
   hydrate: passthroughResponse,
+  except: passthroughExcept
 }
 
 class CacheMiddleware {
@@ -95,6 +106,10 @@ class CacheMiddleware {
 
     if( typeof this.options.hydrate !== 'function' ) {
       throw new Error('hydrate option must be a function!')
+    }
+
+    if ( typeof this.options.except !== 'function') {
+      throw new Error('except option must be a function!')
     }
 
     // Bind cache API functions to our object for direct access.
@@ -136,6 +151,11 @@ class CacheMiddleware {
     try {
       const cacheKey = this.options.getCacheKey(req)
       req.cacheKey = cacheKey
+      
+      if (this.options.except(cacheKey)) {
+        next()
+      }
+      
       const result = await this.cacheGet(cacheKey)
       if( result ) {
         // If returning from cache, all we have is the raw data. Hydrate it.
