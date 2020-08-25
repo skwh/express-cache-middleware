@@ -154,6 +154,7 @@ class CacheMiddleware {
       
       if (this.options.except(cacheKey)) {
         next()
+        return
       }
       
       const result = await this.cacheGet(cacheKey)
